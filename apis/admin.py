@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from apis.models import Recipe
+
+
+@admin.register(Recipe)
+class AdminRecipes(admin.ModelAdmin):
+    list_display = [
+        'title',
+    ]
