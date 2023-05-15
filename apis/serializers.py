@@ -7,4 +7,11 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['title', 'description', 'food_type']
+        fields = [
+            'ingredients',
+            'cooking_time',
+            'title',
+            'description',
+            'food_type',
+            'created_on',
+        ]

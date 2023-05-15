@@ -6,6 +6,21 @@ from tinymce.models import HTMLField
 
 
 class Recipe(models.Model):
+    photo = models.ImageField(
+        upload_to='uploads/preview/%Y/%m',
+        verbose_name='картинка',
+        help_text='загрузите картинку',
+        null=True,
+    )
+
+    ingredients = models.JSONField(
+        'ингредиенты',
+    )
+
+    cooking_time = models.TimeField(
+        'время приготовления',
+    )
+
     title = models.CharField(
         'заголовок',
         max_length=150,
@@ -14,26 +29,13 @@ class Recipe(models.Model):
         verbose_name='описание',
         help_text='введите ваше описание рецепта',
     )
+    food_type = models.PositiveIntegerField(
+        verbose_name='тип рецепта',
+    )
     created_on = models.DateTimeField(
         auto_now_add=True,
         verbose_name="дата создания",
         help_text="дата создания",
-    )
-    photo = models.ImageField(
-        upload_to='uploads/preview/%Y/%m',
-        verbose_name='картинка',
-        help_text='загрузите картинку',
-        null=True,
-    )
-    FOOD_TYPES = [
-        (1, 'салат'),
-        (2, 'мясо'),
-        (3, 'рыба'),
-    ]
-    food_type = models.PositiveSmallIntegerField(
-        verbose_name='тип рецепта',
-        choices=FOOD_TYPES,
-        default=3,
     )
 
     @property
