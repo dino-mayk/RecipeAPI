@@ -5,22 +5,62 @@ from sorl.thumbnail import delete, get_thumbnail
 from tinymce.models import HTMLField
 
 
+class Ingredient(models.Model):
+    title = models.CharField(
+        'заголовок',
+        max_length=150,
+    )
+    quantity = models.CharField(
+        'количество',
+        max_length=150,
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+
+        verbose_name = 'ингредиент'
+        verbose_name_plural = 'ингредиенты'
+
+
+class FoodType(models.Model):
+    title = models.CharField(
+        'заголовок',
+        max_length=150,
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+
+        verbose_name = 'тип блюда'
+        verbose_name_plural = 'типы блюд'
+
+
 class Recipe(models.Model):
+    ingredient = models.ManyToManyField(
+        Ingredient,
+        verbose_name="ингредиенты",
+    )
+    food_type = models.ForeignKey(
+        FoodType,
+        on_delete=models.CASCADE,
+        verbose_name="категория",
+        help_text="выберете тип блюда",
+    )
     photo = models.ImageField(
         upload_to='uploads/preview/%Y/%m',
         verbose_name='картинка',
         help_text='загрузите картинку',
         null=True,
     )
-
-    ingredients = models.JSONField(
-        'ингредиенты',
+    cooking_time = models.PositiveIntegerField(
+        verbose_name='время приготовления(в минутах)',
     )
-
-    cooking_time = models.TimeField(
-        'время приготовления',
-    )
-
     title = models.CharField(
         'заголовок',
         max_length=150,
@@ -28,9 +68,6 @@ class Recipe(models.Model):
     description = HTMLField(
         verbose_name='описание',
         help_text='введите ваше описание рецепта',
-    )
-    food_type = models.PositiveIntegerField(
-        verbose_name='тип рецепта',
     )
     created_on = models.DateTimeField(
         auto_now_add=True,
