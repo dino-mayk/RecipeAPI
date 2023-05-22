@@ -9,11 +9,10 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
         model = Recipe
         fields = [
             'id',
-            'photo',
+            'food_type',
             'ingredients',
+            'photo',
             'cooking_time',
             'title',
             'description',
-            'food_type',
-            'created_on',
         ]
