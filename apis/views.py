@@ -1,7 +1,17 @@
 from rest_framework import viewsets
 
-from apis.models import Ingredient, FoodType, Recipe
-from apis.serializers import IngredientSerializer, FoodTypeSerializer, RecipeSerializer
+from apis.models import IngredientName, Ingredient, FoodType, Recipe
+from apis.serializers import (
+    IngredientNameSerializer,
+    IngredientSerializer,
+    FoodTypeSerializer,
+    RecipeSerializer,
+)
+
+
+class IngredientNameViewSet(viewsets.ModelViewSet):
+    queryset = IngredientName.objects.all()
+    serializer_class = IngredientNameSerializer
 
 
 class IngredientViewSet(viewsets.ModelViewSet):

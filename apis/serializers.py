@@ -1,22 +1,23 @@
 from rest_framework import serializers
 
-from apis.models import Ingredient, FoodType, Recipe
+from apis.models import IngredientName, Ingredient, FoodType, Recipe
+
+
+class IngredientNameSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = IngredientName
+        fields = ['id', 'title']
 
 
 class IngredientSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ['id', 'title']
+        fields = ['id', 'title', 'quantity']
 
 
 class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
-
-    def to_representation(self):
-        return id
-
-    def __str__(self):
-        return title
 
     class Meta:
         model = FoodType

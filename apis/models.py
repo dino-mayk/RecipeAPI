@@ -5,18 +5,6 @@ from sorl.thumbnail import delete, get_thumbnail
 from tinymce.models import HTMLField
 
 
-class Ingredient(models.Model):
-    title = models.CharField(
-        max_length=150,
-    )
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
-
-
 class FoodType(models.Model):
     title = models.CharField(
         max_length=150,
@@ -29,8 +17,33 @@ class FoodType(models.Model):
         ordering = ['title']
 
 
+class IngredientName(models.Model):
+    title = models.CharField(
+        max_length=150,
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+
+
+class Ingredient(models.Model):
+    title = models.ForeignKey(
+        IngredientName,
+        on_delete=models.CASCADE,
+    )
+    quantity = models.CharField(
+        max_length=150,
+    )
+
+    def __str__(self):
+        return '%s: %s' % (self.quantity, self.title)
+
+
 class Recipe(models.Model):
-    ingredients = models.JSONField()
+    ingredients = models.ManyToManyField(Ingredient)
     food_type = models.ForeignKey(
         FoodType,
         on_delete=models.CASCADE,
