@@ -12,9 +12,13 @@ class IngredientNameSerializer(serializers.HyperlinkedModelSerializer):
 
 class IngredientSerializer(serializers.HyperlinkedModelSerializer):
 
+    title = serializers.CharField(
+        max_length=150,
+    )
+
     class Meta:
         model = Ingredient
-        fields = ['id', 'title', 'quantity']
+        fields = ['title', 'quantity']
 
 
 class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,6 +29,10 @@ class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
+    food_type = serializers.CharField(
+        max_length=150,
+    )
+    ingredients = IngredientSerializer(many=True, read_only=True)
 
     class Meta:
         model = Recipe
