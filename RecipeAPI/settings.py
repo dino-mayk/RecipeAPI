@@ -36,7 +36,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'RecipeApp.urls'
+ROOT_URLCONF = 'RecipeAPI.urls'
 
 TEMPLATES = [
     {
@@ -54,7 +54,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'RecipeApp.wsgi.application'
+WSGI_APPLICATION = 'RecipeAPI.wsgi.application'
 
 
 DATABASES = {

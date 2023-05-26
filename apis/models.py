@@ -8,6 +8,7 @@ from tinymce.models import HTMLField
 class FoodType(models.Model):
     title = models.CharField(
         max_length=150,
+        unique=True,
     )
 
     def __str__(self):
@@ -20,6 +21,7 @@ class FoodType(models.Model):
 class IngredientName(models.Model):
     title = models.CharField(
         max_length=150,
+        unique=True,
     )
 
     def __str__(self):
@@ -55,6 +57,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField()
     title = models.CharField(
         max_length=150,
+        unique=True,
     )
     description = HTMLField()
     created_on = models.DateTimeField(auto_now_add=True)

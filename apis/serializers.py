@@ -1,38 +1,59 @@
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.response import Response
 
-from apis.models import IngredientName, Ingredient, FoodType, Recipe
-
-
-class IngredientNameSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = IngredientName
-        fields = ['id', 'title']
+from apis.models import FoodType, Ingredient, IngredientName, Recipe
 
 
-class IngredientSerializer(serializers.HyperlinkedModelSerializer):
+class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     title = serializers.CharField(
         max_length=150,
     )
 
     class Meta:
-        model = Ingredient
-        fields = ['title', 'quantity']
+        model = FoodType
+        fields = [
+            'id',
+            'title',
+        ]
 
 
-class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
+class IngredientNameSerializer(serializers.HyperlinkedModelSerializer):
+
+    title = serializers.CharField(
+        max_length=150,
+    )
 
     class Meta:
-        model = FoodType
-        fields = ['id', 'title']
+        model = IngredientName
+        fields = [
+            'id',
+            'title',
+        ]
+
+
+class IngredientSerializer(serializers.HyperlinkedModelSerializer):
+
+    title = IngredientNameSerializer()
+
+    class Meta:
+        model = Ingredient
+        fields = [
+            'title',
+            'quantity',
+        ]
 
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
-    food_type = serializers.CharField(
+
+    title = serializers.CharField(
         max_length=150,
     )
-    ingredients = IngredientSerializer(many=True, read_only=True)
+    food_type = FoodTypeSerializer()
+    ingredients = IngredientSerializer(many=True)
+
+    def create(self, validated_data):
+        return Recipe.objects.create(**validated_data)
 
     class Meta:
         model = Recipe
