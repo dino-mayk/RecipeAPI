@@ -13,7 +13,7 @@ class AdminRecipe(admin.ModelAdmin):
 @admin.register(Ingredient)
 class AdminIngredient(admin.ModelAdmin):
     list_display = [
-        'title',
+        'ingredient_name',
     ]
 
 

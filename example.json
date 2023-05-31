@@ -1,0 +1,34 @@
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "food_type": {
+                "id": 1,
+                "title": "суп"
+            },
+            "ingredients": [
+                {
+                    "ingredient_name": {
+                        "id": 1,
+                        "title": "баранина"
+                    },
+                    "quantity": "10"
+                },
+                {
+                    "ingredient_name": {
+                        "id": 1,
+                        "title": "баранина"
+                    },
+                    "quantity": "10"
+                }
+            ],
+            "photo": null,
+            "cooking_time": 16,
+            "title": "суп из баранины",
+            "description": "суп из баранины просто"
+        }
+    ]
+}

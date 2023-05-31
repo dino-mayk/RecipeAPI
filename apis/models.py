@@ -32,7 +32,7 @@ class IngredientName(models.Model):
 
 
 class Ingredient(models.Model):
-    title = models.ForeignKey(
+    ingredient_name = models.ForeignKey(
         IngredientName,
         on_delete=models.CASCADE,
     )
@@ -41,7 +41,7 @@ class Ingredient(models.Model):
     )
 
     def __str__(self):
-        return '%s: %s' % (self.quantity, self.title)
+        return '%s: %s' % (self.quantity, self.ingredient_name)
 
 
 class Recipe(models.Model):
