@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
 from apis.models import FoodType, Ingredient, IngredientName, Recipe
@@ -72,12 +73,15 @@ class IngredientSerializer(serializers.HyperlinkedModelSerializer):
 
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
 
-    title = serializers.CharField(
-        max_length=150,
-    )
     food_type = FoodTypeSerializer()
     ingredients = IngredientSerializer(
         many=True,
+    )
+    photo = Base64ImageField(
+        required=False,
+    )
+    title = serializers.CharField(
+        max_length=150,
     )
 
     def create(self, validated_data):
