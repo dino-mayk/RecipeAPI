@@ -2,7 +2,13 @@ from django.db import IntegrityError
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from apis.models import FoodType, Ingredient, IngredientName, Recipe
+from apis.models import (
+    FoodType,
+    Ingredient,
+    IngredientName,
+    Recipe,
+    RecipeImage,
+)
 
 
 class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
@@ -71,13 +77,30 @@ class IngredientSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class RecipeImageSerializer(serializers.HyperlinkedModelSerializer):
+
+    image = Base64ImageField()
+
+    def create(self, validated_data):
+        recipe_image = RecipeImage.objects.create(**validated_data)
+        return recipe_image
+
+    class Meta:
+        model = RecipeImage
+        fields = [
+            'id',
+            'image',
+        ]
+
+
 class RecipeSerializer(serializers.HyperlinkedModelSerializer):
 
     food_type = FoodTypeSerializer()
     ingredients = IngredientSerializer(
         many=True,
     )
-    photo = Base64ImageField(
+    images = RecipeImageSerializer(
+        many=True,
         required=False,
     )
     title = serializers.CharField(
@@ -97,13 +120,13 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
 
         recipe = Recipe.objects.create(
             food_type=food_type,
-            photo=validated_data['photo'],
             cooking_time=validated_data['cooking_time'],
             title=validated_data['title'],
             description=validated_data['description'],
         )
 
         ingredients = validated_data['ingredients']
+        images = validated_data['images']
 
         for ingredient in ingredients:
 
@@ -126,6 +149,17 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
 
             recipe.ingredients.add(ingredient)
 
+        for image in images:
+
+            print(image)
+            print('fffffffffffffffffffffffffffffffffffffffffffff')
+
+            recipe_image = RecipeImage.objects.create(
+                image=image['image'],
+            )
+
+            recipe.images.add(recipe_image)
+
         return recipe
 
     class Meta:
@@ -134,7 +168,7 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'food_type',
             'ingredients',
-            'photo',
+            'images',
             'cooking_time',
             'title',
             'description',

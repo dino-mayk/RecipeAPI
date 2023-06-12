@@ -1,12 +1,20 @@
 from django.contrib import admin
 
-from apis.models import FoodType, Ingredient, IngredientName, Recipe
+from apis.models import (FoodType, Ingredient, IngredientName, Recipe,
+                         RecipeImage)
 
 
 @admin.register(Recipe)
 class AdminRecipe(admin.ModelAdmin):
     list_display = [
         'title',
+    ]
+
+
+@admin.register(RecipeImage)
+class AdminRecipeImage(admin.ModelAdmin):
+    list_display = [
+        'id',
     ]
 
 

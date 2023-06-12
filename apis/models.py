@@ -6,6 +6,7 @@ from tinymce.models import HTMLField
 
 
 class FoodType(models.Model):
+
     title = models.CharField(
         max_length=150,
         unique=True,
@@ -19,6 +20,7 @@ class FoodType(models.Model):
 
 
 class IngredientName(models.Model):
+
     title = models.CharField(
         max_length=150,
         unique=True,
@@ -32,6 +34,7 @@ class IngredientName(models.Model):
 
 
 class Ingredient(models.Model):
+
     ingredient_name = models.ForeignKey(
         IngredientName,
         on_delete=models.CASCADE,
@@ -44,23 +47,12 @@ class Ingredient(models.Model):
         return '%s: %s' % (self.quantity, self.ingredient_name)
 
 
-class Recipe(models.Model):
-    ingredients = models.ManyToManyField(Ingredient)
-    food_type = models.ForeignKey(
-        FoodType,
-        on_delete=models.CASCADE,
-    )
-    photo = models.ImageField(
-        upload_to='uploads/preview/%Y/%m',
+class RecipeImage(models.Model):
+
+    image = models.ImageField(
+        upload_to='uploads/images/%Y/%m',
         null=True,
     )
-    cooking_time = models.PositiveIntegerField()
-    title = models.CharField(
-        max_length=150,
-        unique=True,
-    )
-    description = HTMLField()
-    created_on = models.DateTimeField(auto_now_add=True)
 
     @property
     def get_img(self):
@@ -76,52 +68,38 @@ class Recipe(models.Model):
             return mark_safe(
                 f'<img src="{self.get_img.url}">'
             )
-        return 'now img'
+        return 'no img'
 
-    img_tmb.short_description = 'preview'
+    img_tmb.short_description = 'image'
     img_tmb.allow_tags = True
 
     def sorl_delete(**kwargs):
         delete(kwargs['file'])
 
     cleanup_pre_delete.connect(sorl_delete)
+
+    def __str__(self):
+        return self.image.url
+
+
+class Recipe(models.Model):
+
+    ingredients = models.ManyToManyField(Ingredient)
+    images = models.ManyToManyField(RecipeImage)
+    food_type = models.ForeignKey(
+        FoodType,
+        on_delete=models.CASCADE,
+    )
+    cooking_time = models.PositiveIntegerField()
+    title = models.CharField(
+        max_length=150,
+        unique=True,
+    )
+    description = HTMLField()
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['created_on']
-
-
-class RecipeGallery(models.Model):
-    upload = models.ImageField(
-        upload_to='uploads/gallery/%Y/%m',
-        verbose_name="img",
-        help_text='load img'
-    )
-    recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
-    )
-
-    @property
-    def get_img(self):
-        return get_thumbnail(self.upload, '300x300', crop='center', quality=51)
-
-    def img_tmb(self):
-        if self.upload:
-            return mark_safe(
-                f'<img src="{self.get_img.url}">'
-            )
-        return 'no img'
-
-    img_tmb.short_description = 'photos'
-    img_tmb.allow_tags = True
-
-    def sorl_delete(**kwargs):
-        delete(kwargs['file'])
-
-    cleanup_pre_delete.connect(sorl_delete)
-
-    def __str__(self):
-        return self.upload.url
