@@ -2,13 +2,8 @@ from django.db import IntegrityError
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from apis.models import (
-    FoodType,
-    Ingredient,
-    IngredientName,
-    Recipe,
-    RecipeImage,
-)
+from apis.models import (FoodType, Ingredient, IngredientName, Recipe,
+                         RecipeImage)
 
 
 class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):
@@ -150,9 +145,6 @@ class RecipeSerializer(serializers.HyperlinkedModelSerializer):
             recipe.ingredients.add(ingredient)
 
         for image in images:
-
-            print(image)
-            print('fffffffffffffffffffffffffffffffffffffffffffff')
 
             recipe_image = RecipeImage.objects.create(
                 image=image['image'],

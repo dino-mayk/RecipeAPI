@@ -1,19 +1,10 @@
 from rest_framework import viewsets
 
-from apis.models import (
-    FoodType,
-    Ingredient,
-    IngredientName,
-    Recipe,
-    RecipeImage,
-)
-from apis.serializers import (
-    FoodTypeSerializer,
-    IngredientNameSerializer,
-    IngredientSerializer,
-    RecipeImageSerializer,
-    RecipeSerializer,
-)
+from apis.models import (FoodType, Ingredient, IngredientName, Recipe,
+                         RecipeImage)
+from apis.serializers import (FoodTypeSerializer, IngredientNameSerializer,
+                              IngredientSerializer, RecipeImageSerializer,
+                              RecipeSerializer)
 
 
 class IngredientNameViewSet(viewsets.ModelViewSet):
