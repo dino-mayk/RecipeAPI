@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from apis.models import FoodType
-from apis.serializers import FoodTypeSerializer
+from foodType.models import FoodType
+from foodType.serializers import FoodTypeSerializer
 
 
 class FoodTypeViewSet(viewsets.ModelViewSet):

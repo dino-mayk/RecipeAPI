@@ -1,7 +1,7 @@
 from django.db import IntegrityError
 from rest_framework import serializers
 
-from apis.models import Ingredient, IngredientName
+from ingredient.models import Ingredient, IngredientName
 
 
 class IngredientNameSerializer(serializers.HyperlinkedModelSerializer):

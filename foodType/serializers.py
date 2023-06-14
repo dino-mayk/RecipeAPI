@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apis.models import FoodType
+from foodType.models import FoodType
 
 
 class FoodTypeSerializer(serializers.HyperlinkedModelSerializer):

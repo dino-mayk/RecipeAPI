@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apis.models import FoodType, Ingredient, IngredientName
+from ingredient.models import Ingredient, IngredientName
 
 
 @admin.register(Ingredient)

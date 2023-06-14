@@ -4,47 +4,8 @@ from django_cleanup.signals import cleanup_pre_delete
 from sorl.thumbnail import delete, get_thumbnail
 from tinymce.models import HTMLField
 
-
-class FoodType(models.Model):
-
-    title = models.CharField(
-        max_length=150,
-        unique=True,
-    )
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
-
-
-class IngredientName(models.Model):
-
-    title = models.CharField(
-        max_length=150,
-        unique=True,
-    )
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
-
-
-class Ingredient(models.Model):
-
-    ingredient_name = models.ForeignKey(
-        IngredientName,
-        on_delete=models.CASCADE,
-    )
-    quantity = models.CharField(
-        max_length=150,
-    )
-
-    def __str__(self):
-        return '%s: %s' % (self.quantity, self.ingredient_name)
+from foodType.models import FoodType
+from ingredient.models import Ingredient
 
 
 class RecipeImage(models.Model):
