@@ -5,10 +5,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
-
     path('admin/', admin.site.urls),
 
-    path('', include("apis.urls")),
+    path('', include("recipe.urls")),
+    path('', include("foodType.urls")),
+    path('', include("ingredient.urls")),
 ]
 
 urlpatterns += static(
